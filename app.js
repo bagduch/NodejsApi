@@ -8,23 +8,26 @@ const AuthRoute = require("./routes/auth.js");
 dotenv.config();
 
 const  {
-  MONGO_USERNAME = 'admin',
+  MONGO_USERNAME = 'user',
   MONGO_PASSWORD = 'secret',
   MONGO_HOST = 'mongo',
   MONGO_PORT = 27017,
-  MONGO_DATABASE = 'project'
+  MONGO_DATABASE = 'project',
+  MONGO_ROOT_USERNAME='root',
+  MONGO_ROOT_PASSWORD='secret'
 } = process.env
 //mongo DB
-// mongoose.connect(
-//   `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DATABASE}`,
-//   { useNewUrlParser: true, useUnifiedTopology: true },
-//   () => console.log(mongoose.connection.readyState)
-// );
 mongoose.connect(
-  'mongodb://mongo:27017/project',
-  { useNewUrlParser: true,useUnifiedTopology: true },
+  `mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}`,
+  { useNewUrlParser: true, useUnifiedTopology: true },
   () => console.log(mongoose.connection.readyState)
-).catch(error => handleError(error));
+);
+
+// mongoose.connect(
+//   'mongodb://mongo:27017/project',
+//   { useNewUrlParser: true,useUnifiedTopology: true },
+//   () => console.log(mongoose.connection.readyState)
+// ).catch(error => handleError(error));
  
  
 
