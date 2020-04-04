@@ -4,9 +4,9 @@ services:
     container_name: nodejs
     restart: always
     build: .
+    working_dir: /app
     volumes:  
       - .:/app
-    working_dir: /app
     ports:
       - "80:8080"
     links:
@@ -16,7 +16,14 @@ services:
     image: mongo
     volumes:
       - mongodata:/data/db
+      - "./mongo:/docker-entrypoint-initdb.d"
     ports:
       - "27017:27017"
+    environment:
+      MONGO_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      MONGO_USER: ${MONGO_USER}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
 volumes:
-   mongodata:
+    mongodata:

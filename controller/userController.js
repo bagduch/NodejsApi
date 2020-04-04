@@ -6,6 +6,7 @@ exports.register = async function(req, res) {
     email: req.body.email,
     password: req.body.password
   });
+  console.log(newUser);
   try {
     const user = await newUser.save();
     res.send(user);
