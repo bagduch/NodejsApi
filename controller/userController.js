@@ -1,6 +1,10 @@
 const User = require("../model/user");
-var bcrypt = require("bcryptjs");
-const { userValidation } = require("../validation/userValidation");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const {
+  userValidation,
+  loginValidation,
+} = require("../validation/userValidation");
 
 exports.register = async function (req, res) {
   //validation user
@@ -17,7 +21,7 @@ exports.register = async function (req, res) {
   //create User
   const newUser = new User({
     name: req.body.name,
-    email: req.body.email, 
+    email: req.body.email,
     password: hashedPassword,
   });
   try {
@@ -29,6 +33,9 @@ exports.register = async function (req, res) {
   }
 };
 exports.login = async function (req, res) {
+  //validation user
+  const { error } = loginValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
   //find user
   const user = await User.findOne({ email: req.body.email });
   if (!user) return res.status(400).send("Email or Password Wrong!");
@@ -36,7 +43,8 @@ exports.login = async function (req, res) {
   const validPass = await bcrypt.compareSync(req.body.password, user.password);
   if (!validPass) return res.status(400).send("Email or Password Wrong!");
 
-  res.send("logged in");
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN);
+  res.header("auth-token", token).send(token);
 };
 
 exports.getUser = async function (req, res) {};
