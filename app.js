@@ -21,7 +21,7 @@ mongoose.connect(
   `mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}`,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => console.log(mongoose.connection.readyState)
-);
+); 
 
 // mongoose.connect(
 //   'mongodb://mongo:27017/project',
