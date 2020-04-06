@@ -33,8 +33,9 @@ exports.register = async function (req, res) {
   }
 };
 exports.login = async function (req, res) {
-  //validation user
+  //validation user 
   const { error } = loginValidation(req.body);
+  console.log("here");
   if (error) return res.status(400).send(error.details[0].message);
   //find user
   const user = await User.findOne({ email: req.body.email });
